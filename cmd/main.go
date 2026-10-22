@@ -6,6 +6,7 @@ import (
 
 	"github.com/fatawaimamalmuftin/be-shortlink/internal/config/database"
 	"github.com/fatawaimamalmuftin/be-shortlink/internal/config/redis"
+	"github.com/fatawaimamalmuftin/be-shortlink/internal/router"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -18,15 +19,12 @@ func main() {
 	r := gin.Default()
 	r.Static("/uploads", "./public/uploads")
 
-	if err := database.InitDB(); err != nil {
-		log.Println(err)
-	}
+	db := database.InitDB()
 
-	if err := redis.InitRedis(); err != nil {
-		log.Println(err)
-	}
+	rdb := redis.InitRedis()
 
 	ctx := context.Background()
+	router.MainRouter(r, db, rdb, &ctx)
 
 	r.Run(":3000")
 }
