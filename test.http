@@ -1,0 +1,10 @@
+@baseUrl = http://localhost:3000/api
+
+### Regis
+POST {{baseUrl}}/auth/registration
+Content-Type: application/json
+
+{
+  "email": "x@mail.com",
+  "password": "123123"
+}
