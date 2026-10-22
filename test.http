@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000/api
-@token = 
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInJvbGUiOiJ4QG1haWwuY29tIiwiaXNzIjoic2hvcnRsaW5rLWFwcCIsImV4cCI6MTc5MjY2MzU5NH0.JJmcYNkl7QO7GxSAUiTBe4FWVZcVM_mqCsXxmL5U4hw
 
 ### Regis
 POST {{baseUrl}}/auth/registration
@@ -18,3 +18,11 @@ Content-Type: application/json
   "email": "x@mail.com",
   "password": "123123"
 }
+
+### logout
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{token}}
+
+### get my short link
+GET {{baseUrl}}/links/my
+Authorization: Bearer {{token}}

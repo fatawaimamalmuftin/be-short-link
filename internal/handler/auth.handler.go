@@ -3,8 +3,10 @@ package handler
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	customerror "github.com/fatawaimamalmuftin/be-shortlink/internal/customError"
 	"github.com/fatawaimamalmuftin/be-shortlink/internal/dto"
@@ -16,6 +18,7 @@ import (
 type IAuthService interface {
 	RegisterUser(ctx context.Context, newUser *model.ReqRegis) error
 	LoginUser(ctx context.Context, req *model.ReqLogin) (*model.ResLogin, error)
+	LogoutUser(ctx context.Context, token string) error
 }
 
 type AuthHandler struct {
@@ -94,5 +97,41 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		Status:  true,
 		Message: "Login successful",
 		Data:    res,
+	})
+}
+
+func (h *AuthHandler) Logout(c *gin.Context) {
+	authHeader := c.GetHeader("Authorization")
+	if authHeader == "" {
+		c.JSON(http.StatusBadRequest, dto.Res{
+			Status:  false,
+			Message: "Authorization header is required",
+		})
+		return
+	}
+
+	parts := strings.Split(authHeader, " ")
+	if len(parts) != 2 || parts[0] != "Bearer" {
+		c.JSON(http.StatusBadRequest, dto.Res{
+			Status:  false,
+			Message: "Invalid token format",
+		})
+		return
+	}
+
+	token := parts[1]
+
+	if err := h.Service.LogoutUser(c.Request.Context(), token); err != nil {
+		c.JSON(http.StatusInternalServerError, dto.Res{
+			Status:  false,
+			Message: "Failed to process logout",
+		})
+		fmt.Println(err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Res{
+		Status:  true,
+		Message: "Logout successful",
 	})
 }

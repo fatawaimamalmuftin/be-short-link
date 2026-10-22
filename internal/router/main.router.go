@@ -12,4 +12,5 @@ import (
 func MainRouter(r *gin.Engine, db *pgxpool.Pool, rdb *redis.Client, c *context.Context) {
 	r.Use(middleware.Cors)
 	authRouter(r, db, rdb, c)
+	LinkRouter(r, db, rdb)
 }

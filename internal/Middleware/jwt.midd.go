@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"strings"
 
@@ -59,6 +60,7 @@ func CheckJWTtoken(c *gin.Context, rdb *redis.Client) {
 			Status:  false,
 			Message: "internal server error",
 		})
+		log.Println(err)
 		return
 	}
 
@@ -69,6 +71,7 @@ func CheckJWTtoken(c *gin.Context, rdb *redis.Client) {
 			Status:  false,
 			Message: "internal server error",
 		})
+		log.Println(err)
 		return
 	}
 
@@ -81,5 +84,6 @@ func CheckJWTtoken(c *gin.Context, rdb *redis.Client) {
 	}
 
 	c.Set("tokenCleims", tokenClem)
+	c.Set("user_id", tokenClem.Id)
 	c.Next()
 }
