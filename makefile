@@ -40,3 +40,28 @@ up:
 
 down:
 	docker compose down --rmi local
+
+up:
+	docker compose up -d --build
+	make logs
+
+down:
+	docker compose down --rmi local
+
+reset:
+	make down
+	make up
+
+ps:
+	docker compose ps -a
+
+logs:
+	docker logs -f sl-be
+
+swag:
+	swag init -g cmd/main.go -o docs
+
+reset:
+	make down
+	make up
+	make logs

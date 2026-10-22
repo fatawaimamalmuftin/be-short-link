@@ -11,13 +11,13 @@ import (
 
 func InitRedis() *redis.Client {
 	rdbHost := os.Getenv("RDB_HOST")
-	rdbPort := os.Getenv("RDB_PORT_H")
-
 	if rdbHost == "" {
 		rdbHost = "localhost"
 	}
+
+	rdbPort := os.Getenv("RDB_PORT_H")
 	if rdbPort == "" {
-		rdbPort = "8002"
+		rdbPort = "6379"
 	}
 
 	rdb := redis.NewClient(&redis.Options{

@@ -16,6 +16,9 @@ services:
   rdb:
     image: redis:8.10.2-alpine
     container_name: sl-rdb
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - ./redis-sl.conf:/usr/local/etc/redis/redis.conf
     ports:
       - "${RDB_PORT_H}:${RDB_PORT_C}"
     networks:
@@ -30,7 +33,14 @@ services:
       - "${BE_PORT_H}:${BE_PORT_C}"
     environment:
       - DF_DB_HOST=${CMPS_DB_HOST}
+      - DF_DB_PORT_H=${DF_DB_PORT_C} # Menggunakan port internal postgres (5432)
       - RDB_HOST=${CMPS_RDB_HOST}
+      - RDB_PORT_H=${RDB_PORT_C}     # Menggunakan port internal redis (6379)
+      - DF_DB_USER=${DF_DB_USER}
+      - DF_DB_PASS=${DF_DB_PASS}
+      - DF_DB_NAME=${DF_DB_NAME}
+      - JWT_KEY=${JWT_KEY}
+      - JWT_ISSUER=${JWT_ISSUER}
     depends_on:
       - db
       - rdb
