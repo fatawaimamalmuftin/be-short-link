@@ -36,3 +36,7 @@ Content-Type: application/json
   "original_url": "https://golang.org/doc/",
   "slug": "godocs"
 }
+
+### DELETE SHORTLINK
+DELETE {{baseUrl}}/links/21
+Authorization: Bearer {{token}}

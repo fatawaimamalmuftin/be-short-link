@@ -32,3 +32,7 @@ func (s *LinkService) GetMyLinks(ctx context.Context, userID int) ([]model.ResLi
 
 	return links, nil
 }
+
+func (s *LinkService) DeleteShortLink(ctx context.Context, linkID int, userID int) error {
+	return s.Repo.DeleteLink(ctx, linkID, userID)
+}

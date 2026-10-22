@@ -22,5 +22,6 @@ func LinkRouter(r *gin.Engine, db *pgxpool.Pool, rdb *redis.Client) {
 	{
 		linkGroup.POST("", linkHandler.CreateLink)
 		linkGroup.GET("/my", linkHandler.GetMyLinks)
+		linkGroup.DELETE("/:id", linkHandler.DeleteLink)
 	}
 }

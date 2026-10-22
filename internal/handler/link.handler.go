@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/fatawaimamalmuftin/be-shortlink/internal/dto"
 	"github.com/fatawaimamalmuftin/be-shortlink/internal/model"
@@ -15,6 +16,7 @@ import (
 type ILinkService interface {
 	CreateShortLink(ctx context.Context, userID int, req *model.ReqCreateLink) (*model.ResLink, error)
 	GetMyLinks(ctx context.Context, userID int) ([]model.ResLink, error)
+	DeleteShortLink(ctx context.Context, linkID int, userID int) error
 }
 
 type LinkHandler struct {
@@ -111,5 +113,48 @@ func (h *LinkHandler) GetMyLinks(c *gin.Context) {
 		Status:  true,
 		Message: "Links retrieved successfully",
 		Data:    links,
+	})
+}
+
+func (h *LinkHandler) DeleteLink(c *gin.Context) {
+	userIDVal, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, dto.Res{
+			Status:  false,
+			Message: "Unauthorized",
+		})
+		return
+	}
+
+	userID, ok := userIDVal.(int)
+	if !ok {
+		c.JSON(http.StatusInternalServerError, dto.Res{
+			Status:  false,
+			Message: "Invalid user identity",
+		})
+		return
+	}
+
+	idParam := c.Param("id")
+	linkID, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, dto.Res{
+			Status:  false,
+			Message: "Invalid link ID parameter",
+		})
+		return
+	}
+
+	if err := h.Service.DeleteShortLink(c.Request.Context(), linkID, userID); err != nil {
+		c.JSON(http.StatusNotFound, dto.Res{
+			Status:  false,
+			Message: "Link not found or not owned by user",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Res{
+		Status:  true,
+		Message: "Short link deleted successfully",
 	})
 }

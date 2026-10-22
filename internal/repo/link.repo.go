@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	"github.com/fatawaimamalmuftin/be-shortlink/internal/model"
@@ -60,4 +61,20 @@ func (r *LinkRepo) GetLinksByUserID(ctx context.Context, userID int) ([]model.Re
 	}
 
 	return links, nil
+}
+
+func (r *LinkRepo) DeleteLink(ctx context.Context, linkID int, userID int) error {
+	query := `DELETE FROM links WHERE id_links = $1 AND user_id = $2;`
+
+	res, err := r.DB.Exec(ctx, query, linkID, userID)
+	if err != nil {
+		log.Println("Error DeleteLink Repo:", err)
+		return err
+	}
+
+	if res.RowsAffected() == 0 {
+		return errors.New("link not found or unauthorized")
+	}
+
+	return nil
 }
