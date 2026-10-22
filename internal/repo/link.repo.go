@@ -16,6 +16,29 @@ func NewLinkRepo(db *pgxpool.Pool) *LinkRepo {
 	return &LinkRepo{DB: db}
 }
 
+func (r *LinkRepo) CreateLink(ctx context.Context, userID int, req *model.ReqCreateLink) (*model.ResLink, error) {
+	query := `
+		INSERT INTO links (original_url, slug, user_id) 
+		VALUES ($1, $2, $3) 
+		RETURNING id_links, original_url, slug, created_at, user_id;
+	`
+
+	var link model.ResLink
+	err := r.DB.QueryRow(ctx, query, req.OriginalURL, req.Slug, userID).Scan(
+		&link.ID,
+		&link.OriginalURL,
+		&link.Slug,
+		&link.CreatedAt,
+		&link.UserID,
+	)
+	if err != nil {
+		log.Println("Error CreateLink Repo:", err)
+		return nil, err
+	}
+
+	return &link, nil
+}
+
 func (r *LinkRepo) GetLinksByUserID(ctx context.Context, userID int) ([]model.ResLink, error) {
 	query := `SELECT id_links, original_url, slug, created_at, user_id FROM links WHERE user_id = $1 ORDER BY created_at DESC;`
 

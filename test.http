@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInJvbGUiOiJ4QG1haWwuY29tIiwiaXNzIjoic2hvcnRsaW5rLWFwcCIsImV4cCI6MTc5MjY2MzU5NH0.JJmcYNkl7QO7GxSAUiTBe4FWVZcVM_mqCsXxmL5U4hw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInJvbGUiOiJ4QG1haWwuY29tIiwiaXNzIjoic2hvcnRsaW5rLWFwcCIsImV4cCI6MTc5MjY2Mzg0OH0.y7kXmRvXTOvjNKZE9n8ggEV5MqB_qN5kL78vwXE1OBc
 
 ### Regis
 POST {{baseUrl}}/auth/registration
@@ -26,3 +26,13 @@ Authorization: Bearer {{token}}
 ### get my short link
 GET {{baseUrl}}/links/my
 Authorization: Bearer {{token}}
+
+### create short link
+POST {{baseUrl}}/links
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "original_url": "https://golang.org/doc/",
+  "slug": "godocs"
+}

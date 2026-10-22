@@ -1,7 +1,7 @@
 package router
 
 import (
-	Middleware "github.com/fatawaimamalmuftin/be-shortlink/internal/Middleware"
+	middleware "github.com/fatawaimamalmuftin/be-shortlink/internal/Middleware"
 	"github.com/fatawaimamalmuftin/be-shortlink/internal/handler"
 	"github.com/fatawaimamalmuftin/be-shortlink/internal/repo"
 	"github.com/fatawaimamalmuftin/be-shortlink/internal/service"
@@ -17,9 +17,10 @@ func LinkRouter(r *gin.Engine, db *pgxpool.Pool, rdb *redis.Client) {
 
 	linkGroup := r.Group("/api/links")
 	linkGroup.Use(func(c *gin.Context) {
-		Middleware.CheckJWTtoken(c, rdb)
+		middleware.CheckJWTtoken(c, rdb)
 	})
 	{
+		linkGroup.POST("", linkHandler.CreateLink)
 		linkGroup.GET("/my", linkHandler.GetMyLinks)
 	}
 }
