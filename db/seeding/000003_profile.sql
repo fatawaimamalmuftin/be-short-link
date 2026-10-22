@@ -1,0 +1,22 @@
+
+INSERT INTO profile (avatar, bio, user_id) VALUES
+('https://api.dicebear.com/7.x/avataaars/svg?seed=1', 'Backend Software Engineer', 1),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=2', 'UI/UX Designer', 2),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=3', 'DevOps Engineer', 3),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=4', 'Frontend React Developer', 4),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=5', 'Fullstack Developer', 5),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=6', 'Data Scientist', 6),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=7', 'Cyber Security Specialist', 7),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=8', 'Digital Marketer', 8),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=9', 'Mobile App Developer', 9),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=10', 'Product Manager', 10),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=11', 'System Administrator', 11),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=12', 'Graphic Designer', 12),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=13', 'Database Administrator', 13),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=14', 'Technical Writer', 14),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=15', 'Game Developer', 15),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=16', 'QA Automation Engineer', 16),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=17', 'Blockchain Engineer', 17),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=18', 'Content Strategist', 18),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=19', 'Go Developer', 19),
+('https://api.dicebear.com/7.x/avataaars/svg?seed=20', 'AI Researcher', 20);

@@ -1,5 +1,6 @@
 include .env
 
+SEEDER_PATH=db/seeding
 MIGRATE_PATH=db/migrations
 DB_URL=postgres://$(DF_DB_USER):$(DF_DB_PASS)@$(DF_DB_HOST):$(DF_DB_PORT_H)/$(DF_DB_NAME)?sslmode=disable
 
@@ -9,9 +10,9 @@ migrate-create:
 
 migrate-up:
 	migrate -path $(MIGRATE_PATH) -database "$(DB_URL)" -verbose up
-
+	
 migrate-down-all:
-	migrate -database "$(DB_URL)" -path $(MIGRATION_PATH) down
+	migrate -path $(MIGRATE_PATH) -database "$(DB_URL)" -verbose drop -f
 
 migrate-down:
 	migrate -path $(MIGRATE_PATH) -database "$(DB_URL)" -verbose down 1
