@@ -18,4 +18,5 @@ func authRouter(r *gin.Engine, db *pgxpool.Pool, rdb *redis.Client, c *context.C
 	rs := service.NewAuthService(rr)
 	rh := handler.NewAuthHandler(rs)
 	auth.POST("registration", rh.Register)
+	auth.POST("login", rh.Login)
 }

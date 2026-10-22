@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	customerror "github.com/fatawaimamalmuftin/be-shortlink/internal/customError"
 	"github.com/fatawaimamalmuftin/be-shortlink/internal/dto"
 	"github.com/fatawaimamalmuftin/be-shortlink/internal/model"
 	"github.com/gin-gonic/gin"
@@ -14,6 +15,7 @@ import (
 
 type IAuthService interface {
 	RegisterUser(ctx context.Context, newUser *model.ReqRegis) error
+	LoginUser(ctx context.Context, req *model.ReqLogin) (*model.ResLogin, error)
 }
 
 type AuthHandler struct {
@@ -56,5 +58,41 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	c.JSON(http.StatusCreated, dto.Res{
 		Status:  true,
 		Message: "User registered successfully",
+	})
+}
+
+func (h *AuthHandler) Login(c *gin.Context) {
+	var req model.ReqLogin
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, dto.Res{
+			Status:  false,
+			Message: err.Error(),
+		})
+		log.Println("Validation Error:", err)
+		return
+	}
+
+	res, err := h.Service.LoginUser(c.Request.Context(), &req)
+	if err != nil {
+		if errors.Is(err, customerror.PasMissMach) {
+			c.JSON(http.StatusUnauthorized, dto.Res{
+				Status:  false,
+				Message: "Invalid email or password",
+			})
+			return
+		}
+
+		c.JSON(http.StatusInternalServerError, dto.Res{
+			Status:  false,
+			Message: "Failed to process login",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Res{
+		Status:  true,
+		Message: "Login successful",
+		Data:    res,
 	})
 }
