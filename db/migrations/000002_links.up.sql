@@ -1,0 +1,8 @@
+CREATE TABLE links (
+    id_links INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    original_url TEXT NOT NULL,
+    slug VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    user_id INT NOT NULL,
+    CONSTRAINT fk_user_links FOREIGN KEY (user_id) REFERENCES users(id_users) ON DELETE CASCADE
+);

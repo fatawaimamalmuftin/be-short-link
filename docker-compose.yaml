@@ -1,0 +1,45 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: sl-db
+    environment:
+      POSTGRES_USER: ${DF_DB_USER}
+      POSTGRES_PASSWORD: ${DF_DB_PASS}
+      POSTGRES_DB: ${DF_DB_NAME}
+    ports:
+      - "${DF_DB_PORT_H}:${DF_DB_PORT_C}"
+    volumes:
+      - sl-db-data:/var/lib/postgresql
+    networks:
+      - sl-network
+
+  rdb:
+    image: redis:8.10.2-alpine
+    container_name: sl-rdb
+    ports:
+      - "${RDB_PORT_H}:${RDB_PORT_C}"
+    networks:
+      - sl-network
+
+  be:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: sl-be
+    ports:
+      - "${BE_PORT_H}:${BE_PORT_C}"
+    environment:
+      - DF_DB_HOST=${CMPS_DB_HOST}
+      - RDB_HOST=${CMPS_RDB_HOST}
+    depends_on:
+      - db
+      - rdb
+    networks:
+      - sl-network
+
+networks:
+  sl-network:
+    driver: bridge
+
+volumes:
+  sl-db-data:
