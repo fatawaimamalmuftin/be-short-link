@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3000/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInJvbGUiOiJ4QG1haWwuY29tIiwiaXNzIjoic2hvcnRsaW5rLWFwcCIsImV4cCI6MTc5MjY2Mzg0OH0.y7kXmRvXTOvjNKZE9n8ggEV5MqB_qN5kL78vwXE1OBc
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInJvbGUiOiJ4QG1haWwuY29tIiwiaXNzIjoic2hvcnRsaW5rLWFwcCIsImV4cCI6MTc5Mjc1OTQ1OH0._TjaaZzV4QlVlPvewg34at2PeksbXfNhuw1baMcOsuc
 
 ### Regis
 POST {{baseUrl}}/auth/registration
