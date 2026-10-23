@@ -65,3 +65,9 @@ reset:
 	make down
 	make up
 	make logs
+
+docker-rdb:
+	docker run -d --name rdb-sl -p 8002:6379 -v ./redis-sl.conf:/etc/redis/redis.conf redis:8.10.2 redis-server /etc/redis/redis.conf
+
+docker-db:
+	docker run -d --name db-sl -e POSTGRES_USER=shortlink -e POSTGRES_PASSWORD=123 -e POSTGRES_DB=sl-db -p 8001:5432 -v sl-db:/var/lib/postgresql postgres:18
